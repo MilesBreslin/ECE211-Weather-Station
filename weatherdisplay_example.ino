@@ -122,8 +122,6 @@ void handleTemp(AdafruitIO_Data *data) {
 }  
   
 void handleCondition(AdafruitIO_Data *data) {
-
-  lightPixels(pixels.Color(0, 0, 0, 0)); // reset all pixels to off
   
   String forecast = data->toString(); // store the incoming weather data in a string
   
@@ -141,55 +139,36 @@ void handleCondition(AdafruitIO_Data *data) {
   String rainandsnow = String("Rain and Snow");
   String snowshower = String("Snow Shower");
   
-  // These if statements compare the incoming weather variable to the stored conditions, and control the NeoPixels accordingly.
-  
-  // if there's rain in the forecast, tell the the first four pixels to be blue and the middle four pixels to be white (but don't draw them yet)
+  // if there's rain in the forecast, Blue
   if (forecast.equalsIgnoreCase(rain) || forecast.equalsIgnoreCase(lightrain) || forecast.equalsIgnoreCase(rainshower)){
     Serial.println("precipitation in the forecast today");
-    pixels.setPixelColor(0, pixels.Color(0, 30, 200, 20));
-    pixels.setPixelColor(1, pixels.Color(0, 30, 200, 20));
-    pixels.setPixelColor(2, pixels.Color(0, 30, 200, 20));
-    pixels.setPixelColor(3, pixels.Color(0, 30, 200, 20));
-    pixels.setPixelColor(4, pixels.Color(0, 0, 0, 255));
-    pixels.setPixelColor(5, pixels.Color(0, 0, 0, 255));
-    pixels.setPixelColor(6, pixels.Color(0, 0, 0, 255));
-    pixels.setPixelColor(7, pixels.Color(0, 0, 0, 255));
+    digitalWrite(RED, 0);
+    digitalWrite(GREEN, 0);
+    digitalWrite(BLUE, 1);
   }
   
-  // if there's snow in the forecast, tell the the first four pixels to be whiteish blue and the middle four pixels to be white (but don't draw them yet)
+  // if there's snow in the forecast, Teal
   if (forecast.equalsIgnoreCase(snow) || forecast.equalsIgnoreCase(rainandsnow) || forecast.equalsIgnoreCase(snowshower)){
     Serial.println("precipitation in the forecast today");
-    pixels.setPixelColor(0, pixels.Color(0, 30, 200, 20));
-    pixels.setPixelColor(1, pixels.Color(0, 30, 200, 20));
-    pixels.setPixelColor(2, pixels.Color(0, 30, 150, 150));
-    pixels.setPixelColor(3, pixels.Color(0, 30, 150, 150));
-    pixels.setPixelColor(4, pixels.Color(0, 0, 0, 255));
-    pixels.setPixelColor(5, pixels.Color(0, 0, 0, 255));
-    pixels.setPixelColor(6, pixels.Color(0, 0, 0, 255));
-    pixels.setPixelColor(7, pixels.Color(0, 0, 0, 255));
+    digitalWrite(RED, 0);
+    digitalWrite(GREEN, 1);
+    digitalWrite(BLUE, 1);
   }
   
-  // if there's sun in the forecast, tell the last four pixels to be yellow (but don't draw them yet)
+  // if there's sun in the forecast, Yellow
   if (forecast.equalsIgnoreCase(clearsky) || forecast.equalsIgnoreCase(fair) || forecast.equalsIgnoreCase(sunny)){
     Serial.println("some kind of sun in the forecast today");
-    pixels.setPixelColor(8, pixels.Color(255, 150, 0, 0));
-    pixels.setPixelColor(9, pixels.Color(255, 150, 0, 0));
-    pixels.setPixelColor(10, pixels.Color(255, 150, 0, 0));
-    pixels.setPixelColor(11, pixels.Color(255, 150, 0, 0));
+    digitalWrite(RED, 1);
+    digitalWrite(GREEN, 1);
+    digitalWrite(BLUE, 0);
   }
-  // if there're clouds in the forecast, tell the the middle four pixels to white and the last four pixels to be yellow (but don't draw them yet)
+  // Cloudy, White
   if (forecast.equalsIgnoreCase(cloudy) || forecast.equalsIgnoreCase(mostlycloudy) || forecast.equalsIgnoreCase(partlycloudy)){
     Serial.println("cloudy sky in the forecast today");
-    pixels.setPixelColor(4, pixels.Color(0, 0, 0, 255));
-    pixels.setPixelColor(5, pixels.Color(0, 0, 0, 255));
-    pixels.setPixelColor(6, pixels.Color(0, 0, 0, 255));
-    pixels.setPixelColor(7, pixels.Color(0, 0, 0, 255));
-    pixels.setPixelColor(8, pixels.Color(255, 150, 0, 0));
-    pixels.setPixelColor(9, pixels.Color(255, 150, 0, 0));
-    pixels.setPixelColor(10, pixels.Color(255, 150, 0, 0));
-    pixels.setPixelColor(11, pixels.Color(255, 150, 0, 0));
+    digitalWrite(RED, 1);
+    digitalWrite(GREEN, 1);
+    digitalWrite(BLUE, 1);
    }
-   pixels.show(); // light up the pixels
 }
 
 // Function to set all the NeoPixels to the specified color.
