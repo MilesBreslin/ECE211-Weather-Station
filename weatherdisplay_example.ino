@@ -50,18 +50,11 @@
 // or ethernet clients.
 #include "config.h"
 
-// Configuration you can optionally change (but probably want to keep the same):
-#define PIXEL_PIN       2                      // Pin connected to the NeoPixel data input.
-#define PIXEL_COUNT     12                      // Number of NeoPixels.
-#define PIXEL_TYPE      NEO_GRBW + NEO_KHZ800   // Type of the NeoPixels (see strandtest example).
-
 // before running this code, create feeds on Adafruit IO that match these names:
 AdafruitIO_Feed *hightemp = io.feed("hightemp"); // set up the 'hightemp' feed
 AdafruitIO_Feed *precipitation = io.feed("precipitation"); // set up the 'precipitation' feed
 
 Adafruit_7segment matrix = Adafruit_7segment();  // create segment display object
-
-Adafruit_NeoPixel pixels = Adafruit_NeoPixel(PIXEL_COUNT, PIXEL_PIN, PIXEL_TYPE); // create NeoPixels object
 
 void setup() {
   
@@ -69,10 +62,6 @@ void setup() {
   
   // start the serial connection
   Serial.begin(115200);
-  
-  // Initialize NeoPixels and turn them off.
-  pixels.begin();
-  lightPixels(pixels.Color(0, 0, 0, 0));
 
   Serial.print("Connecting to Adafruit IO");
 
@@ -169,12 +158,4 @@ void handleCondition(AdafruitIO_Data *data) {
     digitalWrite(GREEN, 1);
     digitalWrite(BLUE, 1);
    }
-}
-
-// Function to set all the NeoPixels to the specified color.
-void lightPixels(uint32_t color) {
-  for (int i=0; i<PIXEL_COUNT; ++i) {
-    pixels.setPixelColor(i, color);
-  }
-  pixels.show();
 }
