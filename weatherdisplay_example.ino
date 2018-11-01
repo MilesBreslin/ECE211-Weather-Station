@@ -131,31 +131,31 @@ void handleCondition(AdafruitIO_Data *data) {
   // if there's rain in the forecast, Blue
   if (forecast.equalsIgnoreCase(rain) || forecast.equalsIgnoreCase(lightrain) || forecast.equalsIgnoreCase(rainshower)){
     Serial.println("precipitation in the forecast today");
-    digitalWrite(RED, 0);
-    digitalWrite(GREEN, 0);
-    digitalWrite(BLUE, 1);
+    digitalWrite(LED_RED, 0);
+    digitalWrite(LED_GREEN, 0);
+    digitalWrite(LED_BLUE, 1);
   }
   
   // if there's snow in the forecast, Teal
   if (forecast.equalsIgnoreCase(snow) || forecast.equalsIgnoreCase(rainandsnow) || forecast.equalsIgnoreCase(snowshower)){
     Serial.println("precipitation in the forecast today");
-    digitalWrite(RED, 0);
-    digitalWrite(GREEN, 1);
-    digitalWrite(BLUE, 1);
+    digitalWrite(LED_RED, 0);
+    digitalWrite(LED_GREEN, 1);
+    digitalWrite(LED_BLUE, 1);
   }
   
   // if there's sun in the forecast, Yellow
   if (forecast.equalsIgnoreCase(clearsky) || forecast.equalsIgnoreCase(fair) || forecast.equalsIgnoreCase(sunny)){
     Serial.println("some kind of sun in the forecast today");
-    digitalWrite(RED, 1);
-    digitalWrite(GREEN, 1);
-    digitalWrite(BLUE, 0);
+    digitalWrite(LED_RED, 1);
+    digitalWrite(LED_GREEN, 1);
+    digitalWrite(LED_BLUE, 0);
   }
   // Cloudy, White
   if (forecast.equalsIgnoreCase(cloudy) || forecast.equalsIgnoreCase(mostlycloudy) || forecast.equalsIgnoreCase(partlycloudy)){
     Serial.println("cloudy sky in the forecast today");
-    digitalWrite(RED, 1);
-    digitalWrite(GREEN, 1);
-    digitalWrite(BLUE, 1);
+    digitalWrite(LED_RED, 1);
+    digitalWrite(LED_GREEN, 1);
+    digitalWrite(LED_BLUE, 1);
    }
 }

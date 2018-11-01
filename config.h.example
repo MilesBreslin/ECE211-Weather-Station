@@ -16,6 +16,10 @@
 #define WIFI_SSID       "Your Network Name"
 #define WIFI_PASS       "y0uRpa$sw0rD"
 
+#define LED_RED			27
+#define LED_GREEN		22
+#define LED_BLUE		12
+
 // comment out the following two lines if you are using fona or ethernet
 #include "AdafruitIO_WiFi.h"
 AdafruitIO_WiFi io(IO_USERNAME, IO_KEY, WIFI_SSID, WIFI_PASS);
