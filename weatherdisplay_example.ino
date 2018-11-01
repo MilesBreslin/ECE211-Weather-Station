@@ -62,6 +62,10 @@ void setup() {
   // start the serial connection
   Serial.begin(115200);
 
+  pinMode(RED, OUTPUT);
+  pinMode(GREEN, OUTPUT);
+  pinMode(BLUE, OUTPUT);
+
   Serial.print("Connecting to Adafruit IO");
 
   // connect to io.adafruit.com
