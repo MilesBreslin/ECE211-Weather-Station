@@ -26,10 +26,9 @@
 
 #include <Wire.h> // Enable this line if using Arduino Uno, Mega, etc.
 #include <Adafruit_GFX.h>
-#include "Adafruit_LEDBackpack.h"
-#include "Adafruit_NeoPixel.h"
+#include <Adafruit_LEDBackpack.h>
 
-#include <ESP8266WiFi.h>
+#include <WiFi.h>
 #include <AdafruitIO.h>
 #include <Adafruit_MQTT.h>
 
