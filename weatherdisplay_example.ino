@@ -61,7 +61,7 @@ void initSevSeg();
 
 const char SEVSEG_nPINS[] = { 21, 17, 16, 19, 18, 5, 4};
 const char SEVSEG_sPINS[] = { 15, 33, 27, 12};
-const bool SEVSEG_MAP[10][7] = {
+const bool SEVSEG_MAP[12][7] = {
   //     GFEDCBA  Segments      7-segment map:
   { 0,1,1,1,1,1,1 }, // 0   "0"
   { 0,0,0,0,1,1,0 }, // 1   "1"
@@ -72,35 +72,20 @@ const bool SEVSEG_MAP[10][7] = {
   { 1,1,1,1,1,0,1 }, // 6   "6"
   { 0,0,0,0,1,1,1 }, // 7   "7"
   { 1,1,1,1,1,1,1 }, // 8   "8"
-  { 1,1,0,1,1,1,1 }  // 9   "9"
+  { 1,1,0,1,1,1,1 }, // 9   "9"
+  { 1,1,1,0,1,1,1 }, // a   "a"
+  { 1,1,1,1,1,0,0 }  // b   "b"
 };
 
 void setup() {
   // start the serial connection
   Serial.begin(115200);
-
-  //pin 12 on sevseg is 12 on huzzah, 5 on uno
-  //pin 11 on sevseg is A4 on huzzah, 12 on uno
-  //pin 10 on sevseg is A5 on huzzah, 8 on uno
-  //pin 9 on sevseg is SCK on huzzah, 13 on uno
-  //pin 8 on sevseg is MO on huzzah, 9 on uno
-  //pin 7 on sevseg is MI on huzzah, 10 on uno
-  //pin 6 on sevseg is MO on huzzah, 7 on uno
-  //pin 5 on sevseg is 27 on huzzah, 4 on uno
-  //pin 4 on sevseg is 33 on huzzah, 3 on uno
-  //pin 3 on sevseg is  on huzzah, 11 on uno
-  //pin 2 on sevseg is  on huzzah, 6 on uno
-  //pin 1 on sevseg is 15 on huzzah, 2 on uno
-
-  //sevseg.Begin(1,15,33,27,12,6,7,8,9,10,11,12,13);
-  //sevseg.Brightness(90);
-  //matrix.print(10, DEC);  // send the temperature value to the display
-  //matrix.writeDisplay();          // light up display
+  
   initSevSeg();
   pinMode(LED_RED, OUTPUT);
   pinMode(LED_GREEN, OUTPUT);
   pinMode(LED_BLUE, OUTPUT);
-
+  
   Serial.print("Connecting to Adafruit IO");
 
   // connect to io.adafruit.com
@@ -112,7 +97,7 @@ void setup() {
   // received from adafruit io.
   hightemp->onMessage(handleTemp);
   precipitation->onMessage(handleCondition);
-  setSevSeg(9999, 10);
+  
   // wait for a connection
   {     // animation while waiting for connection; removes need for serial connectivity
     SevSegPowerOff();
@@ -123,8 +108,18 @@ void setup() {
     int i = 0;
     while(io.status() < AIO_CONNECTED) {
       Serial.print(".");
-      digitalWrite(SEVSEG_nPINS[i%7], ((i/7)+1) %2);
-      delay(500);
+      
+      //Debug all hardware functions
+      
+      digitalWrite(LED_RED, i%2);
+      digitalWrite(LED_GREEN, i/2%2);
+      digitalWrite(LED_BLUE, i/3%2);
+      if (i<30) {
+        digitalWrite(SEVSEG_nPINS[i%7], ((i/7)+1) %2);
+        delay(500);
+      else {
+        setSevSeg((i%12)*101,1);
+      }
       i++;
     }
     for (int i=0; i<10; i++) {
@@ -165,6 +160,13 @@ void handleTemp(AdafruitIO_Data *data) {
 void handleCondition(AdafruitIO_Data *data) {
   
   String forecast = data->toString(); // store the incoming weather data in a string
+  
+  digitalWrite(LED_RED, 0);
+  digitalWrite(LED_GREEN, 0);
+  for (int i=1; i<6; i++) {
+    digitalWrite(LED_BLUE, i%2);
+    delay(100);
+  }
   
   //the following strings store the varous IFTTT weather report words I've discovered so far
   String rain = String("Rain");
@@ -220,6 +222,7 @@ void setSevSeg(int n, int s) {
                     n /100 %10,
                     n /1000 };
     for (int i=0; i<s*(1000/onMS); i++) {
+      SevSegPowerOff();
       setSingleSevSeg(i%4, num[i%4]);
       delay(onMS);
     }
@@ -227,7 +230,6 @@ void setSevSeg(int n, int s) {
 }
 
 void setSingleSevSeg(int device, char n) {
-  SevSegPowerOff();
   for (int i=0; i<7; i++) {
     digitalWrite(SEVSEG_nPINS[i], SEVSEG_MAP[n][i]);
   }
