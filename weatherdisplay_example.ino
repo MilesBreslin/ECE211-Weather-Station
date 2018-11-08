@@ -137,6 +137,10 @@ void setup() {
   Serial.println();
   Serial.println(io.statusText());
 
+  setSevSeg(57, 30);
+  digitalWrite(LED_RED, 1);
+    digitalWrite(LED_GREEN, 1);
+    digitalWrite(LED_BLUE, 0);
 }
 
 void loop() {
@@ -226,7 +230,7 @@ void setSevSeg(int n, int s) {
                     n /1000 };
     for (int i=0; i<s*(1000/onMS); i++) {
       SevSegPowerOff();
-      setSingleSevSeg(i%4, num[i%4]);
+      setSingleSevSeg(3-i%4, num[i%4]);
       delay(onMS);
     }
   }
