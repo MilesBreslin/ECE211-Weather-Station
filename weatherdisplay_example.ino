@@ -52,6 +52,9 @@
 AdafruitIO_Feed *hightemp = io.feed("hightemp"); // set up the 'hightemp' feed
 AdafruitIO_Feed *precipitation = io.feed("precipitation"); // set up the 'precipitation' feed
 
+void handleCondition(AdafruitIO_Data *data);
+void handleTemp(AdafruitIO_Data *data);
+
 void setSevSeg(int n, int s);
 void setSingleSevSeg(int device, char n);
 void SevSegPowerOff();
@@ -117,7 +120,7 @@ void setup() {
       if (i<30) {
         digitalWrite(SEVSEG_nPINS[i%7], ((i/7)+1) %2);
         delay(500);
-      else {
+      } else {
         setSevSeg((i%12)*101,1);
       }
       i++;
