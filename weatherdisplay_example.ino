@@ -136,11 +136,6 @@ void setup() {
   // we are connected
   Serial.println();
   Serial.println(io.statusText());
-
-  digitalWrite(LED_RED, 1);
-  digitalWrite(LED_GREEN, 1);
-  digitalWrite(LED_BLUE, 0);
-  setSevSeg(57, 30);
 }
 
 void loop() {
